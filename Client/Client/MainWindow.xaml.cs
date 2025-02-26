@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
@@ -25,42 +26,41 @@ namespace Client
         {
             while (true)
             {
-                string serverIp = "192.168.0.101"; // IP DEL SERVIDOR 
+                string serverIp = "127.0.0.1"; // IP DEL SERVIDOR 
                 int port = 5000;
                 try
                 {
                     using (TcpClient client = new TcpClient(serverIp, port))
                     using (NetworkStream stream = client.GetStream())
                     {
-                        DriveInfo drive = DriveInfo.GetDrives().FirstOrDefault(d => d.IsReady);
-                        if (drive == null)
+                        var drives = DriveInfo.GetDrives().Where(d => d.IsReady).ToList();
+                        if (drives.Count == 0)
                         {
                             UpdateUI("No se encontró un disco disponible.", "", "");
                             return;
                         }
 
-                        int full_storage = (int)(drive.TotalSize / (1024 * 1024 * 1024));
-                        int available_storage_gb = (int)(drive.AvailableFreeSpace / (1024 * 1024 * 1024));
-                        int used_storage_gb = full_storage - available_storage_gb;
-
-                        ClientClass diskInfo = new ClientClass
+                        List<ClientClass> diskInfoList = drives.Select(drive => new ClientClass
                         {
                             name_sucursal = "Cochabamba",
                             name_disk = drive.Name,
                             tipo = drive.DriveType.ToString(),
-                            full_storage_gb = full_storage,
-                            available_storage_gb = available_storage_gb,
-                            used_storage_gb = used_storage_gb
-                        };
+                            full_storage_gb = (int)(drive.TotalSize / (1024 * 1024 * 1024)),
+                            available_storage_gb = (int)(drive.AvailableFreeSpace / (1024 * 1024 * 1024)),
+                            used_storage_gb = (int)(drive.TotalSize / (1024 * 1024 * 1024)) - (int)(drive.AvailableFreeSpace / (1024 * 1024 * 1024))
+                        }).ToList();
 
-                        string jsonData = JsonSerializer.Serialize(diskInfo);
+                        string jsonData = JsonSerializer.Serialize(diskInfoList);
                         byte[] data = Encoding.UTF8.GetBytes(jsonData);
                         stream.Write(data, 0, data.Length);
 
                         // Actualizar la interfaz con información ordenada
                         Dispatcher.Invoke(() =>
                         {
-                            UpdateUI("Información del disco enviada:", jsonData, $"Disco: {drive.Name}\nTipo: {drive.DriveType}\nEspacio Total: {full_storage} GB\nEspacio Usado: {used_storage_gb} GB\nEspacio Disponible: {available_storage_gb} GB");
+                            string details = string.Join("\n\n", diskInfoList.Select(d =>
+                                $"Disco: {d.name_disk}\nTipo: {d.tipo}\nTotal: {d.full_storage_gb} GB\nUsado: {d.used_storage_gb} GB\nDisponible: {d.available_storage_gb} GB"));
+
+                            UpdateUI("Información de discos enviada:", jsonData, details);
                         });
                     }
                 }
@@ -78,12 +78,12 @@ namespace Client
         // Método para actualizar la interfaz de usuario
         private void UpdateUI(string title, string json, string details)
         {
-       
+
             lblDetails.Content = details;
             lblInfo.Content = "";
 
             Storyboard updateAnimation = (Storyboard)this.Resources["UpdateAnimation"];
-         
+
         }
 
         private void Minimize_Click(object sender, RoutedEventArgs e)
