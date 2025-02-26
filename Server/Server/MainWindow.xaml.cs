@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LiveCharts;
+using LiveCharts.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -14,6 +16,7 @@ using System.Windows.Threading;
 
 namespace Server
 {
+    //Canon
     public partial class MainWindow : Window
     {
         private Dictionary<string, StackPanel> sucursalPanels = new Dictionary<string, StackPanel>();
@@ -43,7 +46,7 @@ namespace Server
             StorageGrid.Columns = 3;
 
             foreach (var sucursal in sucursal_names)
-            {          
+            {
                 Border border = new Border
                 {
                     Margin = new Thickness(10),
@@ -109,21 +112,21 @@ namespace Server
                 using (client)
                 using (NetworkStream stream = client.GetStream())
                 {
-                    byte[] buffer = new byte[1024];
+                    byte[] buffer = new byte[2048];
                     int bytesRead = stream.Read(buffer, 0, buffer.Length);
                     string receivedData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
 
-                    ClientClass diskInfo = JsonSerializer.Deserialize<ClientClass>(receivedData);
+                    List<ClientClass> diskInfoList = JsonSerializer.Deserialize<List<ClientClass>>(receivedData);
 
-                    Dispatcher.Invoke(() => UpdateUI(diskInfo));
+                    foreach (var diskInfo in diskInfoList)
+                    {
+                        Dispatcher.Invoke(() => UpdateUI(diskInfo));
+                    }
                 }
             }
             catch (Exception ex)
             {
-                Dispatcher.Invoke(() =>
-                {
-                    lblInfo.Content = $"Error en cliente: {ex.Message} desde servidor";
-                });
+                Dispatcher.Invoke(() => lblInfo.Content = $"Error en cliente: {ex.Message} desde servidor");
             }
         }
 
@@ -132,16 +135,29 @@ namespace Server
             if (sucursalPanels.ContainsKey(diskInfo.name_sucursal))
             {
                 StackPanel panel = sucursalPanels[diskInfo.name_sucursal];
-                panel.Children.Clear();
+
+                if (!panel.Children.OfType<TextBlock>().Any(tb => tb.Text == diskInfo.name_sucursal))
+                {
+                    panel.Children.Clear();
+                    panel.Children.Add(new TextBlock
+                    {
+                        Text = diskInfo.name_sucursal,
+                        FontWeight = FontWeights.Bold,
+                        Foreground = Brushes.White,
+                        FontSize = 16,
+                        TextAlignment = TextAlignment.Center
+                    });
+                }
+
                 SolidColorBrush c_color = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF42A5F5"));
 
-                panel.Children.Add(new TextBlock { Text = diskInfo.name_sucursal, FontWeight = FontWeights.Bold, Foreground = Brushes.White, FontSize = 16, TextAlignment = TextAlignment.Center });
                 panel.Children.Add(new TextBlock { Text = $"Disco: {diskInfo.name_disk}", FontSize = 14, Foreground = c_color, TextAlignment = TextAlignment.Center });
                 panel.Children.Add(new TextBlock { Text = $"Tipo: {diskInfo.tipo}", Foreground = Brushes.LightGray });
                 panel.Children.Add(new TextBlock { Text = $"{diskInfo.full_storage_gb} GB Total", Foreground = Brushes.LightGray });
                 panel.Children.Add(new TextBlock { Text = $"{diskInfo.used_storage_gb} GB Uso", Foreground = Brushes.LightGray });
                 panel.Children.Add(new TextBlock { Text = $"{diskInfo.available_storage_gb} GB Libre", Foreground = Brushes.LightGray, Margin = new Thickness(0, 0, 0, 5) });
-                lastReportTime[diskInfo.name_sucursal] = DateTime.Now;
+
+                //lastReportTime[diskInfo.name_sucursal] = DateTime.Now;
 
                 //ProgressBar progressBar = new ProgressBar
                 //{
@@ -150,59 +166,36 @@ namespace Server
                 //    Foreground = diskInfo.available_storage_gb > 100 ? Brushes.Green : Brushes.Red
                 //};
                 //panel.Children.Add(progressBar);
-                panel.Children.Add(CreatePieChart(diskInfo.used_storage_gb, diskInfo.available_storage_gb, diskInfo.full_storage_gb));
+                //panel.Children.Add(CreatePieChart(diskInfo.used_storage_gb, diskInfo.available_storage_gb, diskInfo.full_storage_gb));
+
+
+                PieChart pieChart = new PieChart
+                {
+                    Width = 25,
+                    Height = 25,
+                    Series = new SeriesCollection
+            {
+                new PieSeries
+                {
+                    Title = "Uso",
+                    Values = new ChartValues<double> { diskInfo.used_storage_gb },
+                    Fill = Brushes.Red
+                },
+                new PieSeries
+                {
+                    Title = "Libre",
+                    Values = new ChartValues<double> { diskInfo.available_storage_gb },
+                    Fill = Brushes.Green
+                }
+            }
+                };
+
+                panel.Children.Add(pieChart);
+                lastReportTime[diskInfo.name_sucursal] = DateTime.Now;
 
                 UpdateResume();
             }
         }
-
-        private Canvas CreatePieChart(double used, double available, double total)
-        {
-            // Reducir el tamaño del Canvas a la mitad
-            Canvas canvas = new Canvas { Width = 50, Height = 50 };
-
-            // Ajustar el radio de los segmentos a la mitad
-            double radius = 50 / 2;  // Reducir el radio a la mitad (originalmente era 50)
-
-            double usedAngle = (used / total) * 360;
-            double availableAngle = (available / total) * 360;
-
-            PathFigure figure = new PathFigure { StartPoint = new Point(radius, radius) };
-            figure.Segments.Add(new LineSegment(new Point(radius, 0), true));
-
-            figure.Segments.Add(new ArcSegment(
-                new Point(radius + radius * Math.Sin(usedAngle * Math.PI / 180), radius - radius * Math.Cos(usedAngle * Math.PI / 180)),
-                new Size(radius, radius),
-                0,
-                usedAngle > 180,
-                SweepDirection.Clockwise,
-                true));
-
-            figure.Segments.Add(new LineSegment(new Point(radius, radius), true));
-
-            PathGeometry geometry = new PathGeometry();
-            geometry.Figures.Add(figure);
-
-            Path usedPath = new Path
-            {
-                Fill = Brushes.Red,
-                Data = geometry
-            };
-
-            // Reducir el tamaño de la elipse de fondo a la mitad
-            Ellipse background = new Ellipse
-            {
-                Width = 50,
-                Height = 50,
-                Fill = Brushes.Green
-            };
-
-            canvas.Children.Add(background);
-            canvas.Children.Add(usedPath);
-
-            return canvas;
-        }
-
 
         void StartMonitoring()
         {
@@ -243,33 +236,24 @@ namespace Server
             int totalLibre = 0;
             int reportados = 0;
 
-            foreach (var sucursal in sucursalPanels)
+            foreach (var panel in sucursalPanels.Values)
             {
-                StackPanel panel = sucursal.Value;
-                if (panel.Children.Count > 2) 
+                var texts = panel.Children.OfType<TextBlock>().ToList();
+                if (texts.Count >= 5)
                 {
-                    string totalText = ((TextBlock)panel.Children[3]).Text; // "GB Total"
-                    string usadoText = ((TextBlock)panel.Children[4]).Text; // "GB Uso"
-                    string libreText = ((TextBlock)panel.Children[5]).Text; // "GB Libre"
-
-                    int total = int.Parse(totalText.Split(' ')[0]);
-                    int usado = int.Parse(usadoText.Split(' ')[0]);
-                    int libre = int.Parse(libreText.Split(' ')[0]);
-
-                    totalGB += total;
-                    totalUsado += usado;
-                    totalLibre += libre;
+                    foreach (var text in texts)
+                    {
+                        if (text.Text.Contains("GB Total")) totalGB += int.Parse(text.Text.Split(' ')[0]);
+                        if (text.Text.Contains("GB Uso")) totalUsado += int.Parse(text.Text.Split(' ')[0]);
+                        if (text.Text.Contains("GB Libre")) totalLibre += int.Parse(text.Text.Split(' ')[0]);
+                    }
                     reportados++;
                 }
             }
 
-            // Convertir a TB
-            double totalTB = totalGB / 1024.0;
-
-            lblStorage.Content = $"Total: {totalTB:F1} TB - Usado: {totalUsado} GB - Libre: {totalLibre} GB";
+            lblStorage.Content = $"Total: {totalGB / 1024.0:F1} TB - Usado: {totalUsado} GB - Libre: {totalLibre} GB";
             lblReport.Content = $"Reportaron {reportados} de {sucursalPanels.Count}";
         }
-
 
         private void btmMaximize_Click(object sender, RoutedEventArgs e)
         {
