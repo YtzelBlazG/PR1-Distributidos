@@ -1,0 +1,105 @@
+﻿<Window x:Class="Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Monitoreo de Disco"
+        Height="500" Width="800"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown">
+
+    <Window.Resources>
+        
+        <DropShadowEffect x:Key="ShadowEffect" BlurRadius="10" ShadowDepth="2" Opacity="0.4" />
+
+       
+        <Style x:Key="LabelTitle" TargetType="Label">
+            <Setter Property="FontSize" Value="22" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="LabelInfo" TargetType="Label">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Foreground" Value="#42A5F5" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+
+        
+        <Storyboard x:Key="LoadingAnimation" RepeatBehavior="Forever">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                             From="0.4" To="1" Duration="0:0:6" AutoReverse="True" />
+        </Storyboard>
+
+     
+        <Style TargetType="Button" x:Key="WindowButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse Fill="{TemplateBinding Background}" Opacity="0.2"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+       
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#1B263B" Offset="0.0"/>
+                <GradientStop Color="#415A77" Offset="0.5"/>
+                <GradientStop Color="#778DA9" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+       
+        <DockPanel VerticalAlignment="Top" Background="Transparent" Height="40">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,10,0">
+                <Button x:Name="btnMinimizar" Click="Minimize_Click" Style="{StaticResource WindowButton}" Content="─"/>
+                <Button x:Name="btmMaximize" Click="Maximize_Click" Style="{StaticResource WindowButton}" Content="▢"/>
+                <Button x:Name="btnClose" Click="Close_Click" Style="{StaticResource WindowButton}" Content="X"/>
+            </StackPanel>
+        </DockPanel>
+
+        
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20">
+
+            
+            <Border Background="#2B3A4A" CornerRadius="15" Padding="20" Margin="10"
+                    BorderBrush="#42A5F5" BorderThickness="2"
+                    Effect="{StaticResource ShadowEffect}">
+                <StackPanel>
+                    <Label Content="Información del Disco" Style="{StaticResource LabelTitle}" />
+                    <Label x:Name="lblInfo" Content="Esperando información..." Style="{StaticResource LabelInfo}" />
+                    <Label x:Name="lblDetails" Content="Detalles adicionales aquí..." Foreground="LightGray" FontSize="14" HorizontalAlignment="Center" Margin="10" />
+                </StackPanel>
+            </Border>
+
+         
+            <Border Background="#2B3A4A" CornerRadius="15" Padding="15" Margin="10"
+                    BorderBrush="#90CAF9" BorderThickness="2"
+                    Effect="{StaticResource ShadowEffect}">
+                <ProgressBar x:Name="progressBar" Height="20" Width="400" IsIndeterminate="True" Foreground="#42A5F5" />
+            </Border>
+        </StackPanel>
+    </Grid>
+</Window>
