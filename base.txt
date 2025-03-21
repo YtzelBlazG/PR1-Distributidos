@@ -1,0 +1,45 @@
+-- Crear la base de datos
+CREATE DATABASE ControlAsistencia;
+GO
+
+-- Usar la base de datos
+USE ControlAsistencia;
+GO
+
+-- Crear tabla Empleados
+CREATE TABLE Empleados (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(100) NOT NULL,
+    Departamento NVARCHAR(100) NOT NULL
+);
+GO
+
+-- Crear tabla RegistrosAsistencia
+CREATE TABLE RegistrosAsistencia (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    EmpleadoID INT NOT NULL,
+    FechaHora DATETIME NOT NULL,
+    Tipo NVARCHAR(20) NOT NULL, -- Entrada / Salida
+    FOREIGN KEY (EmpleadoID) REFERENCES Empleados(ID)
+);
+GO
+
+-- Crear tabla HorasTrabajadas
+CREATE TABLE HorasTrabajadas (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    EmpleadoID INT NOT NULL,
+    TiempoTotal NVARCHAR(50) NOT NULL,  -- Por ejemplo: "03:30"
+    HorasTotales NVARCHAR(50) NOT NULL, -- Por ejemplo: "3.5"
+    FOREIGN KEY (EmpleadoID) REFERENCES Empleados(ID)
+);
+GO
+
+-- Crear tabla TotalesAsistencia
+CREATE TABLE TotalesAsistencia (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    EmpleadoID INT NOT NULL,
+    TotalEntrada NVARCHAR(50) NOT NULL,
+    TotalSalida NVARCHAR(50) NOT NULL,
+    FOREIGN KEY (EmpleadoID) REFERENCES Empleados(ID)
+);
+GO
