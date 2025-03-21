@@ -1,0 +1,45 @@
+C:\Users\VICTOR123\source\repos\practica2\practica2\bin\Debug\practica2.exe.config
+C:\Users\VICTOR123\source\repos\practica2\practica2\bin\Debug\practica2.exe
+C:\Users\VICTOR123\source\repos\practica2\practica2\bin\Debug\practica2.pdb
+C:\Users\VICTOR123\source\repos\practica2\practica2\obj\Debug\practica2.csproj.AssemblyReference.cache
+C:\Users\VICTOR123\source\repos\practica2\practica2\obj\Debug\MainWindow.g.cs
+C:\Users\VICTOR123\source\repos\practica2\practica2\obj\Debug\App.g.cs
+C:\Users\VICTOR123\source\repos\practica2\practica2\obj\Debug\practica2_MarkupCompile.cache
+C:\Users\VICTOR123\source\repos\practica2\practica2\obj\Debug\practica2_MarkupCompile.lref
+C:\Users\VICTOR123\source\repos\practica2\practica2\obj\Debug\MainWindow.baml
+C:\Users\VICTOR123\source\repos\practica2\practica2\obj\Debug\practica2.g.resources
+C:\Users\VICTOR123\source\repos\practica2\practica2\obj\Debug\practica2.Properties.Resources.resources
+C:\Users\VICTOR123\source\repos\practica2\practica2\obj\Debug\practica2.csproj.GenerateResource.cache
+C:\Users\VICTOR123\source\repos\practica2\practica2\obj\Debug\practica2.csproj.CoreCompileInputs.cache
+C:\Users\VICTOR123\source\repos\practica2\practica2\obj\Debug\practica2.exe
+C:\Users\VICTOR123\source\repos\practica2\practica2\obj\Debug\practica2.pdb
+D:\Trabajos de la U\Septimo Semestre\Sistemas Distribuidos\practica2\practica2\bin\Debug\practica2.exe.config
+D:\Trabajos de la U\Septimo Semestre\Sistemas Distribuidos\practica2\practica2\bin\Debug\practica2.exe
+D:\Trabajos de la U\Septimo Semestre\Sistemas Distribuidos\practica2\practica2\bin\Debug\practica2.pdb
+D:\Trabajos de la U\Septimo Semestre\Sistemas Distribuidos\practica2\practica2\obj\Debug\practica2.csproj.AssemblyReference.cache
+D:\Trabajos de la U\Septimo Semestre\Sistemas Distribuidos\practica2\practica2\obj\Debug\MainWindow.g.cs
+D:\Trabajos de la U\Septimo Semestre\Sistemas Distribuidos\practica2\practica2\obj\Debug\App.g.cs
+D:\Trabajos de la U\Septimo Semestre\Sistemas Distribuidos\practica2\practica2\obj\Debug\practica2_MarkupCompile.cache
+D:\Trabajos de la U\Septimo Semestre\Sistemas Distribuidos\practica2\practica2\obj\Debug\practica2_MarkupCompile.lref
+D:\Trabajos de la U\Septimo Semestre\Sistemas Distribuidos\practica2\practica2\obj\Debug\MainWindow.baml
+D:\Trabajos de la U\Septimo Semestre\Sistemas Distribuidos\practica2\practica2\obj\Debug\practica2.g.resources
+D:\Trabajos de la U\Septimo Semestre\Sistemas Distribuidos\practica2\practica2\obj\Debug\practica2.Properties.Resources.resources
+D:\Trabajos de la U\Septimo Semestre\Sistemas Distribuidos\practica2\practica2\obj\Debug\practica2.csproj.GenerateResource.cache
+D:\Trabajos de la U\Septimo Semestre\Sistemas Distribuidos\practica2\practica2\obj\Debug\practica2.csproj.CoreCompileInputs.cache
+D:\Trabajos de la U\Septimo Semestre\Sistemas Distribuidos\practica2\practica2\obj\Debug\practica2.exe
+D:\Trabajos de la U\Septimo Semestre\Sistemas Distribuidos\practica2\practica2\obj\Debug\practica2.pdb
+D:\7\sistemas distribuidos\modificado\practica2\practica2\bin\Debug\practica2.exe.config
+D:\7\sistemas distribuidos\modificado\practica2\practica2\bin\Debug\practica2.exe
+D:\7\sistemas distribuidos\modificado\practica2\practica2\bin\Debug\practica2.pdb
+D:\7\sistemas distribuidos\modificado\practica2\practica2\obj\Debug\practica2.csproj.AssemblyReference.cache
+D:\7\sistemas distribuidos\modificado\practica2\practica2\obj\Debug\MainWindow.g.cs
+D:\7\sistemas distribuidos\modificado\practica2\practica2\obj\Debug\App.g.cs
+D:\7\sistemas distribuidos\modificado\practica2\practica2\obj\Debug\practica2_MarkupCompile.cache
+D:\7\sistemas distribuidos\modificado\practica2\practica2\obj\Debug\practica2_MarkupCompile.lref
+D:\7\sistemas distribuidos\modificado\practica2\practica2\obj\Debug\MainWindow.baml
+D:\7\sistemas distribuidos\modificado\practica2\practica2\obj\Debug\practica2.g.resources
+D:\7\sistemas distribuidos\modificado\practica2\practica2\obj\Debug\practica2.Properties.Resources.resources
+D:\7\sistemas distribuidos\modificado\practica2\practica2\obj\Debug\practica2.csproj.GenerateResource.cache
+D:\7\sistemas distribuidos\modificado\practica2\practica2\obj\Debug\practica2.csproj.CoreCompileInputs.cache
+D:\7\sistemas distribuidos\modificado\practica2\practica2\obj\Debug\practica2.exe
+D:\7\sistemas distribuidos\modificado\practica2\practica2\obj\Debug\practica2.pdb

@@ -1,0 +1,67 @@
+﻿<Window x:Class="practica2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:practica2"
+        mc:Ignorable="d"
+        Title="Control de Asistencia" Height="550" Width="900" Background="#F0F0F0">
+    <Grid Margin="20">
+
+        <Border Background="White" CornerRadius="10" Padding="15" BorderBrush="#D3D3D3" BorderThickness="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="10">
+                    <TextBlock Text="Horario Referencial" FontSize="16" FontWeight="Bold" Foreground="#0044CC"/>
+                    <TextBlock Text="Entrada: 8:30, 14:30" FontSize="14" Foreground="#007BFF"/>
+                    <TextBlock Text="Salida: 12:30, 18:30" FontSize="14" Foreground="#FF5733" Margin="0,0,0,10"/>
+
+                    <Button x:Name="btnEscogerDatos" Content="📂 Cargar a TXT" Width="140" Height="40" Background="#007BFF" Foreground="White" FontWeight="Bold" BorderThickness="0" Margin="0,10,0,0" Click="btnEscogerDatos_Click"/>
+                    <Button x:Name="btnCargarDatos" Content="📥 Cargar Datos" Width="140" Height="40" Background="#28A745" Foreground="White" FontWeight="Bold" BorderThickness="0" Margin="0,10,0,0" Click="btnCargarDatos_Click"/>
+
+                    <Border Background="#FFF3CD" CornerRadius="5" Padding="10" Margin="0,20,0,0" Height="99">
+                        <Label x:Name="lblMensaje" Content="" Foreground="#856404" FontSize="14" />
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="20">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="🔑 Key User" VerticalAlignment="Center" FontWeight="Bold"/>
+                        <TextBox x:Name="txtLlave" Grid.Column="1" Height="30" Margin="21,0,18,0"/>
+                        <Button x:Name="btnBuscar" Grid.Column="2" Content="🔍 Buscar" Width="90" Height="30" Background="#FFC107" Foreground="Black" FontWeight="Bold" BorderThickness="0" Margin="10,0,0,0" Click="btnBuscar_Click" VerticalAlignment="Top"/>
+                    </Grid>
+
+                    <Grid Margin="0,10,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="390.853"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="👤 Empleado" VerticalAlignment="Center" FontWeight="Bold"/>
+                        <ComboBox x:Name="cbEmpleados" Grid.Column="1" Height="30" Margin="43,0,33,0"/>
+                    </Grid>
+
+                    <DataGrid x:Name="dgDatos" AutoGenerateColumns="False" Margin="0,10,0,0" Height="300" BorderBrush="#D3D3D3" BorderThickness="1" AlternatingRowBackground="#F9F9F9" SelectionChanged="dgDatos_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="📅 Fecha" Binding="{Binding Fecha}" Width="*"/>
+                            <DataGridTextColumn Header="⏰ Entrada" Binding="{Binding Entrada1}" Width="*"/>
+                            <DataGridTextColumn Header="🚪 Salida" Binding="{Binding Salida1}" Width="*"/>
+                            <DataGridTextColumn Header="⏰ Entrada" Binding="{Binding Entrada2}" Width="*"/>
+                            <DataGridTextColumn Header="🚪 Salida" Binding="{Binding Salida2}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
